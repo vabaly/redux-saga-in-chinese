@@ -218,6 +218,9 @@ $ npm run real-world
 ### TypeScript
 
 Redux-Saga 与 TypeScript 配合使用需要 `DOM.Iterable` 或 `ES2015.Iterable`。如果你的 `target` 是 `ES6`，则不需要再设置，然而如果是 `ES5`，你将需要自己把它们加进来。
+
+> 即在 `tsconfig.json` 的 `lib` 属性里面增加，如果有 `ES2015`，那也就包括了 `ES2015.Iterable`。
+
 检查你的 `tsconfig.json` 文件和官方的 <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html">compiler options</a> 文档。
 
 ### Logo
