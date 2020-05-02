@@ -2,7 +2,9 @@
 
 > 1. Effect 都是对象，相当于一条条指令，middleware 会根据指定做正确的事情，这个开发者不用管
 > 2. 是对象的原因是为了方便测试，这个思想非常好，事件都成为了描述性的对象。
-> 3. 为什么描述性对象是可行的？因为测试的时候，我们其实并不需要知道请求结果是否回来了，因为这是不可控的，我们只需要知道是否发起了请求，也就是是否调用了请求函数，而描述性对象成功产生了，就说明会正确调用函数了。
+> 3. 为什么描述性对象是可行的？因为测试的时候，我们其实并不需要知道请求结果是否回来了，因为这是不可控的，每次情况都可能不同，所以也是没必要的，我们只需要知道是否发起了请求，也就是是否调用了请求函数，而描述性对象成功产生了，就说明会正确调用函数了。
+> 4. 主要用的 副作用 创建器是 call, apply, cps
+> 5. 为什么不直接测试请求？首先，单元测试应该是可以重复运行的，独立的，外部环境不影响测试结果，测试也不影响外部环境，如果是在测试中实际请求了，那么可能会改变服务器或数据库的状态，这样不可取；其次，好的测试应该写明实际值和期望值是什么，关于请求回来的数据是根本不能给出期望值的，如果说是模拟一个请求函数，写死返回值，那么不就是成功调用了模拟函数而已吗？既然终究是要测试是否直接调用了模拟函数，那用描述性对象来描述调用情况，即调用的函数名和参数，真正的调用执行封装进黑盒里，这个黑盒本身能够保证（也就是我们信任它）有相关描述情况就能做到执行函数，这样一来，不就能够给出期望值了吗？不就有描述更清晰的一个测试了吗？
 
 
 在 `redux-saga` 的世界里，Sagas 都用 Generator 函数实现。我们从 Generator 里 yield 纯 JavaScript 对象以表达 Saga 逻辑。
@@ -50,14 +52,12 @@ assert.deepEqual(iterator.next().value, ??) // 我们期望得到什么？
 模拟使测试更加困难和不可靠。另一方面，那些只简单地返回值的函数更加容易测试，因此我们可以使用简单的 `equal()` 来检查结果。
 这是编写最可靠测试用例的方法。
 
-不相信？我建议你阅读 [Eric Elliott's article](https://medium.com/javascript-scene/what-every-unit-test-needs-f6cd34d9836d#.4ttnnzpgc):
+关于测试原则这一方面的内容可以看[这篇文章](https://75.team/post/5-questions-every-unit-test-must-answer.html)
 
-> (...)`equal()`, by nature answers the two most important questions every unit test must answer,
-but most don’t:
-- What is the actual output?
-- What is the expected output?
->
-> If you finish a test without answering those two questions, you don’t have a real unit test. You have a sloppy, half-baked test.
+> `equal()` 函数从本质上反映了每个单元测试必须有的两个要素，尽管如今很多单元测试并没有做到，那就是：
+> 1. 函数调用产生的真实值是什么？
+> 2. 你期望的值是什么？
+> 如果你的测试没有反应这两个要素，那么它就是一个不严谨的单元测试
 
 实际上我们需要的只是保证 `fetchProducts` 任务 yield 一个调用正确的函数，并且函数有着正确的参数。
 
@@ -108,8 +108,6 @@ assert.deepEqual(
 ```
 
 现在我们不需要模拟任何东西了，一个简单的相等测试就足够了。
-
-TODO:
 
 这些 *声明式调用（declarative calls）* 的优势是，我们可以通过简单地遍历 Generator 并在 yield 后的成功的值上面做一个 `deepEqual` 测试，
 就能测试 Saga 中所有的逻辑。这是一个真正的好处，因为复杂的异步操作都不再是黑盒，你可以详细地测试操作逻辑，不管它有多么复杂。

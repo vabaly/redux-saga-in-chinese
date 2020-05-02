@@ -1,5 +1,8 @@
 # 错误处理
 
+> 1. 通过 iterator.throw(value) 方法来让生成器某次迭代过程异常
+> 2. 通过 iterator.next/throw(value) 中的 value 来模拟上个迭代过程的返回值
+
 在这一节中，我们将看到如何在前面的例子中处理故障案例。我们假设远程读取因为某些原因失败了，API 函数 `Api.fetch` 返回一个被拒绝（rejected）的 Promise。
 
 我们希望通过在 Saga 中发起 `PRODUCTS_REQUEST_FAILED` action 到 Store 来处理那些错误。

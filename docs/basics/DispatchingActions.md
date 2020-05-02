@@ -1,5 +1,7 @@
 # 发起 action 到 store
 
+> put 方法可以产生 dispatch 的描述信息，相当于 `call(dispatch, { type })`
+
 在前面的例子上更进一步，假设每次保存之后，我们想发起一些 action 通知 Store 数据获取成功了（目前我们先忽略失败的情况）。
 
 我们可以找出一些方法来传递 Store 的 `dispatch` 函数到 Generator。然后 Generator 可以在接收到获取的响应之后调用它。
@@ -15,6 +17,8 @@ function* fetchProducts(dispatch)
 
 然而，该解决方案与我们在上一节中看到的从 Generator 内部直接调用函数，有着相同的缺点。如果我们想要测试 `fetchProducts` 接收到 AJAX 响应之后执行 dispatch，
 我们还需要模拟 `dispatch` 函数。
+
+> 缺点就是 dispatch 无法产生描述对象，也就不能给出期望值，单元测试需要这个东西
 
 相反，我们需要同样的声明式的解决方案。只需创建一个对象来指示 middleware 我们需要发起一些 action，然后让 middleware 执行真实的 dispatch。
 这种方式我们就可以同样的方式测试 Generator 的 dispatch：只需检查 yield 后的 Effect，并确保它包含正确的指令。
