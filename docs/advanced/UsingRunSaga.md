@@ -1,5 +1,7 @@
 # 连接 Sagas 至外部输入和输出
 
+> 1. runSaga
+
 我们已经看到了，`take` Effect 是通过等待 action 被发起到 Store 来解决（resolved）的。
 也看到了 `put` Effect 是通过发起一个 action 来解决的，action 被作为参数传给 `put` Effect。
 

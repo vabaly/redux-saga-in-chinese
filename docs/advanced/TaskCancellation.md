@@ -1,5 +1,9 @@
 # 取消任务
 
+> 1. 一个任务被取消，那么这个任务里面调用的其他的任务也将被取消，整个调用链上的所有任务都将被取消，也都将执行 finally 区块中的代码
+> 2. 如果模拟一个 yield fork 的返回值，可以使用 createMockTask 函数，它会创建一个任务描述对象，还可以调用在任务描述对象上的 `setRunning`, `setResult`, `setError` 方法来设置任务的状态是在运行中，还是执行完了，还是执行出错中止了。
+> 3. 自动取消的情况：race 中，有一个执行完了，其他都取消，all 或 yield [] 中，有一个出错了，其他都取消了
+
 我们已经在 [无阻塞调用](http://redux-saga-in-chinese.js.org/docs/advanced/NonBlockingCalls.html) 一节中看到了取消任务的示例。
 在这节，我们将回顾一下，在一些更加详细的情况下取消的语义。
 

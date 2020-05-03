@@ -1,5 +1,7 @@
 # 组合 Sagas
 
+> 1. yeild [saga1, saga2, ...] 和 yeild all([saga1, saga2]) 是一样的吗？总之，yeild [saga1, saga2, ...] 和 yeild [effect1, effect2, ...] 是一样的
+
 虽然使用 `yield*` 是提供组合 Sagas 的惯用方式，但这个方法也有一些局限性：
 
 - 你可能会想要单独测试嵌套的 Generator。这导致了一些重复的测试代码及重复执行的开销。

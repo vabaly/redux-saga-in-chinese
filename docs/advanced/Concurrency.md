@@ -11,7 +11,10 @@ import {fork, take} from "redux-saga/effects"
 
 const takeEvery = (pattern, saga, ...args) => fork(function*() {
   while (true) {
+    // 监听一个事件
     const action = yield take(pattern)
+    // 执行一个后台任务
+    // 这里不用 call 的原因是保证上述 pattern Action 监听不被阻塞，可并发执行多个 pattern Action 对应的任务
     yield fork(saga, ...args.concat(action))
   }
 })
@@ -28,9 +31,11 @@ const takeLatest = (pattern, saga, ...args) => fork(function*() {
   let lastTask
   while (true) {
     const action = yield take(pattern)
+    // 取消之前的任务
     if (lastTask) {
       yield cancel(lastTask) // 如果任务已经结束，则 cancel 为空操作
     }
+    // 启动新任务
     lastTask = yield fork(saga, ...args.concat(action))
   }
 })

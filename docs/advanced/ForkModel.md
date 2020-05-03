@@ -1,9 +1,21 @@
 # redux-saga 的 fork model
 
+> 1. fork 并不是直接执行 Promise，而是类似于下面这样：
+>    ```ts
+>    function a () {
+>       const b = new Promise(...)
+>       const c = new Promise(...)
+>       //... 其他逻辑
+>       return Promise.all([b, c])
+>    }
+>    ```
+>    fork 在一个函数中是非阻塞的，但如果调用这个函数的另一个函数用了 `call`，也会等待所有 fork 任务执行完毕，也就是成阻塞的了
+> 2. spawn 则彻底的分离了所有的任务，彼此没有联系，就像在函数里面随意创建 promise，却从来不在 .then 里面创建
+
 在 `redux-saga` 的世界里，你可以使用 2 个 Effects 在后台动态地 fork task
 
-- `fork` 用来创建 *attached forks*
-- `spawn` 用来创建 *detached forks*
+- `fork` 用来创建 *attached forks* => 关联的后台任务
+- `spawn` 用来创建 *detached forks* => 分离的后台任务
 
 ## Attached forks (using `fork`)
 

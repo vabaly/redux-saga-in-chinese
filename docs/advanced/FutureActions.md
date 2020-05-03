@@ -1,5 +1,7 @@
 # 监听未来的 action
 
+> take 方法创建的描述对象会让内部的 middleware 去监听一个 ACTION，当 ACTION 触发时，结束监听并往下继续执行，takeEvery 方法创建的描述对象会让内部的 middleware 一直监听一个 ACTION，当 ACTION 触发时，触发回调函数
+
 到现在为止，我们已经使用了辅助函数 `takeEvery` effect 以在每个 action 来到时派生一个新的任务。
 这多少有些模仿 `redux-thunk` 的行为：举个例子，每次一个组件调用 `fetchProducts` Action 创建器（Action Creator），Action 创建器就会发起一个 thunk 来执行控制流程。
 

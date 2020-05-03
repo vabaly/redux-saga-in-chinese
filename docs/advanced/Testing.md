@@ -1,5 +1,8 @@
 # 测试 Sagas
 
+> 1. 如果 generator 里面有不同的情况，那么可以使用 `cloneableGenerator` 创建一个带有克隆功能的生成器，当需要测某个情况的时候，可以使用 `.clone()` 方法克隆出一个生成器进行测试
+> 2. 测试完整的 saga 讲了什么？TODO: <=
+
 有两个主要的测试 Sagas 的方式：一步一步测试 saga generator function，或者执行整个 saga 并断言 side effects。
 
 ## 测试 Saga Generator Function

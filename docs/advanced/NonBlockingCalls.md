@@ -1,5 +1,10 @@
 # 无阻塞调用
 
+> 1. 异步控制流可以写在一起，而不是分散开来
+> 2. call 是用来调用 Promise 函数或 Generator 函数的，同步函数根本不需要用到 call，当然也不会用到 yeild
+> 3. yeild call 就相当于 await Promise，它会阻塞后续流程，如果你想创建一个异步任务同时不阻塞后续流程，可以使用 const task = yeild fork，它会立即返回一个任务对象，相当于 const timer = setTimeout，当你需要取消这个任务时，可以使用 yeild cancel(task)，当需要在 cancel 的时候，在任务内部做一些状态重置的工作时，可以在任务内部使用 try ... catch ... finally 格式的块，然后在 finally 块中判断任务是否由 cancel 取消，用 yield cancelled() 返回的值判断
+> 4. yield 本身是同步执行还是异步执行的，要看 generator.next() 是异步调用还是同步调用的，不能简单的认为 generator 中每个 yield 区段都是异步调用。像上述的 fork、cancel 感觉就是同步调用。
+
 在之前的章节中，我们看到了 `take` Effect 让我们可以在一个集中的地方更好地去描述一个非常规的流程。
 
 重温一下登录流程示例：

@@ -1,6 +1,5 @@
 # 使用 Channels
 
-They can also be used to queue specific actions from the Store.
 到目前为止，我们已经使用了 `take` 和 `put` 来与 Redux Store 通信。Channels 概括了这些 Effects 与外部事件源或 Sagas 之间的通信。
 它们还可以用于在 Store 中对特定的 actions 进行排序。
 
