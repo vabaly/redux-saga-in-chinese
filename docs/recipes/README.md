@@ -1,5 +1,10 @@
 ## 技巧
 
+> 1. 带有节流的监听：throttle
+> 2. 防抖动直接用 takeLatest，并且在任务中用 delay 来等待一会，看是否有新的时间触发。当然，也可以自己用 take 实现 takeLatest
+> 3. 重试直接在 generator 中写循环
+> 4. 几分钟内允许撤销，也就是几分钟内允许执行撤销函数，可以用 race 来达到目的
+
 ### 节流（Throttling）
 
 你可以通过在监听的 Saga 里调用一个 delay 函数，针对一系列发起的 action 进行节流。
@@ -75,6 +80,7 @@ function* watchInput() {
 
 import { call, put, take, delay } from 'redux-saga/effects'
 
+// 直接把重试写在 for 循环里，这种同步式写法真爽！
 function* updateApi(data) {
   for(let i = 0; i < 5; i++) {
     try {
